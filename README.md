@@ -5,6 +5,9 @@ Our web application is an online event planner. The users can create and manage 
 
 We will use several AWS services in our application. Amazon Cognito will be used for user registration and authentication. Amazon Route 53 will be used for DNS management and access to application. Amazon CloudFront will be used for static content. Amazon S3 will be used for storing HTML, CSS and Javascript files. Amazon API Gateway will be used for the communication between frontend and serverless backend, and routing user requests to AWS Lambda. AWS Lambda will be used for responses for user requests such as registration, creating events and joining an event. Amazon DynamoDB will be used for keeping the data. Amazon SNS will be used for sending notification to users. Amazon CloudWatch will be used for monitoring performance metrics. Github will be used for CI/CD.
 
+##
+You can visit the website [here]( https://eplannergo.com/).
+
 ## Architecture
 ![aws Architecture](https://github.com/myldrm99/cs683_project/blob/main/images/arch.png)
 
