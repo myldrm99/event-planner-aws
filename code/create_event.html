@@ -90,48 +90,48 @@
         });
         </script>
     <script>
-        //get submit button
-        var submitbutton = document.getElementById("submitbutton");
-        submitbutton.addEventListener("click", function(){
-            //get values of the form
-            var title = document.getElementById("title").value;
-            var details = document.getElementById("details").value;
-            var date = document.getElementById("date").value;
-            var time = document.getElementById("time").value;
-            var loc = document.getElementById("loc").value;
-            var numpart = document.getElementById("numpart").value;
-            //check if the values are empty
-            if(title == "" || details == "" || date == "" || time == "" || loc == "" || numpart == ""){
-                alert("Please fill all the fields");
-                return;
+    var submitButton = document.getElementById("submitbutton");
+    submitButton.addEventListener("click", function(event){
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        var title = document.getElementById("title").value;
+        var details = document.getElementById("details").value;
+        var date = document.getElementById("date").value;
+        var time = document.getElementById("time").value;
+        var loc = document.getElementById("loc").value;
+        var numpart = document.getElementById("numpart").value;
+
+        if(title === "" || details === "" || date === "" || time === "" || loc === "" || numpart === ""){
+            alert("Please fill all the fields");
+            return;
+        }
+
+        // API Gateway URL
+        var apiURL = "https://qwf2h51rw8.execute-api.us-east-1.amazonaws.com/deneme2";
+		
+
+        $.ajax({
+            url: apiURL,
+            type: "POST",
+            contentType: "application/json", // Ensure the content type is application/json
+            data: JSON.stringify({
+                title: title,
+                details: details,
+                date: date,
+                time: time,
+                loc: loc,
+                numpart: numpart
+            }),
+            success: function(response){
+                alert("Event created successfully");
+            },
+            error: function(xhr, status, error){
+                alert("Error creating event: " + error);
             }
-            //send the values to the server
-           /* $.ajax({
-                url: "http://localhost:3000/create_event",
-                type: "POST",
-                data: {
-                    title: title,
-                    details: details,
-                    date: date,
-                    time: time,
-                    loc: loc,
-                    numpart: numpart
-                },
-                success: function(data){
-                    alert("Event created successfully");
-                },
-                error: function(){
-                    alert("Error creating event");
-                }
-            });*/
-
         });
+    });
+</script>
 
-
-
-
-
-    </script>
     
 </body>
 </html>
