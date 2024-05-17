@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Page</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary" style="background-color: #3379B7;">
+    <!-- Container wrapper -->
+    <div  style=" display:inline-flex; justify-content:space-evenly;">
+        <!-- Navbar brand -->
+        <img src="logo.png" style=" width: 16%;">
+        <div class="justify-content-right" style="padding: 2%;">
+            <!-- Add login button here -->
+            <a id="login" href="https://login.eplannergo.com/login?client_id=uf1818ohqrnug82m345v53usc&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Feplannergo.com" class="btn float-right btn-primary">Login</a>
+           <!--- <a href="https://login.eplannergo.com/login?client_id=uf1818ohqrnug82m345v53usc&response_type=code&scope=email+openid+phone&redirect_uri=file:///home/yusufziya/Desktop/cs683project/cs683_project/code/main.html" class="btn float-right btn-primary">Login</a> -->
+        </div>
+    </div>
+</nav>
+<!-- Navbar -->
+<div class="row justify-content-center">
+    <div class="col-lg-3 d-none d-lg-block"></div>
+    <div class="col-lg-6" style="background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h2  mb-4" id="namefield"></h1>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+<div class="row justify-content-center">
+    <div class="col-lg-3 d-none d-lg-block"></div>
+    <div class="col-lg-6" style="background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h2  mb-4">Welcome to ePlannerGo</h1>
+            </div>
+            <div class="text-center" style="margin-top: 5%;">
+                <h2 class="h4  mb-4">To create a new event</h2>
+                <a id="create_event" href="create_event.html" class="btn btn-primary btn-user btn-block">Create Event</a>
+                <!--Create a space-->
+                <div style="margin-top: 5%;"></div>
+                <h2 class="h4  mb-4">To view existing events</h2>
+                <a id="view_events" href="view_events.html" class="btn btn-primary btn-user btn-block">View Events</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    window.onload = function() {
+       
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    if (code) {
+        console.log( code );
+        // Proceed to exchange the code for tokens
+        exchangeCodeForTokens(code);  // This needs server-side handling
+            // Add your JavaScript code here if needed  
+    //pass the parameter when clik to create event
+    //change href to create event page with the code
+    document.getElementById("create_event").setAttribute("href", "create_event.html?code="+code);
+    document.getElementById("view_events").setAttribute("href", "view_events.html?code="+code);
+    if(window.localStorage.getItem("user") !=null){
+            document.getElementById("login").innerText = "Logout";
+            document.getElementById("login").setAttribute("href", "#");
+            document.getElementById("login").addEventListener("click", function(){
+                window.localStorage.removeItem("user");
+                window.sessionStorage.removeItem("user");
+                localStorage.removeItem("user");
+                window.location.href = "main.html";
+            });
+
+        }
+
+
+    }
+   };
+   async function exchangeCodeForTokens(code) {
+    const tokenEndpoint = 'https://login.eplannergo.com/oauth2/token';
+    const clientId = 'uf1818ohqrnug82m345v53usc';
+    const redirectUri = 'https%3A%2F%2Feplannergo.com';
+
+    try {
+        const response = await fetch(tokenEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `grant_type=authorization_code&client_id=${clientId}&code=${code}&redirect_uri=${redirectUri}`
+        });
+        const tokens = await response.json();
+        console.log(tokens); // Contains ID token, access token, refresh token
+
+        // Optionally call a function to use the access token to fetch user info
+        getUserInfo(tokens.access_token);
+    } catch (error) {
+        console.error('Error exchanging code for tokens:', error);
+    }
+   }
+   async function getUserInfo(accessToken) {
+    const userInfoEndpoint = 'https://login.eplannergo.com/oauth2/userInfo';
+
+    try {
+        const response = await fetch(userInfoEndpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+        const userData = await response.json();
+        console.log(userData); // Contains user profile information
+        username=userData.username;
+        window.localStorage.setItem('user', username);
+        window.sessionStorage.setItem('user', username);
+        //set user
+        localStorage.setItem('user', username);
+        sessionStorage.setItem('user', username);
+        console.log("here")
+        console.log("user in local "+ window.localStorage.getItem('user'));      
+       
+        // Display user information on the webpage
+        //document.getElementById('userInfo').innerText = JSON.stringify(userData);
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+    }
+    
+}
+    // Add your JavaScript code here if needed
+</script>
+<script>
+
+    // Add your JavaScript code here if needed  
+    //pass the parameter when clik to create event
+    document.getElementById("create_event").addEventListener("click", function(){
+        var userinfo = JSON.parse(localStorage.getItem('user'));
+        var user = userinfo.username;
+        console.log("user field " + userinfo);
+        console.log("user " + user);
+        window.location.href = "create_event.html?code="+user;
+    });
+
+
+    </script>
+</body>
+</html>
