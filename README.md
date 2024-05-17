@@ -1,4 +1,4 @@
-# CS683_project 
+# Evenet Planner - AWS
 
 ## Details
 Our web application is an online event planner. The users can create and manage events. After signing in the application, the users see a page and can navigate to two different pages. The first one is for viewing existing events. The second one is for creating a new event.  The required information for creating an event includes event title, number of participants, date, time, address and details. In the event viewing section, users can see all the events. They can join events with available quota in that page and the quota of the event is decreased by one. The owner of the event can see the participants and get notifications when someone joins their event.
