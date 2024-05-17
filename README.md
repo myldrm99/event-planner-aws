@@ -12,12 +12,12 @@ You can visit the website [here]( https://eplannergo.com/).
 ![aws Architecture](https://github.com/myldrm99/cs683_project/blob/main/images/arch.png)
 
 ## AWS Services Used
-- Cognito: User authentication
-- Route 53: DNS management
-- CloudFront: Static content delivery
-- S3: Frontend storage (HTML, CSS, JavaScript)
-- API Gateway: Request routing
-- Lambda: Backend logic
-- DynamoDB: Data storage
-- CloudWatch: Monitoring
+- **Cognito:** User authentication
+- **Route 53:** DNS management
+- **CloudFront:** Static content delivery
+- **S3:** Frontend storage (HTML, CSS, JavaScript)
+- **API Gateway:** Request routing
+- **Lambda:** Backend logic
+- **DynamoDB:** Data storage
+- **CloudWatch:** Monitoring
 
